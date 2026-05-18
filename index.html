@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Moonly - Női egészség és menstruációs ciklus követő alkalmazás. Kövesd nyomon ciklusodat, naplózd érzéseidet és találj megbízható orvosi forrásokat.">
+    <title>Moonly - A te női egészség társad</title>
+    <link rel="icon" href="assets/moonly_header.svg" type="image/svg+xml">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400;500;600;700;800;900&family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap"
+        rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        text: '#F5E5F6',
+                        background: '#1C091E',
+                        primary: '#DA93E2',
+                        secondary: '#7B1F85',
+                        accent: '#D3C120',
+                        foreground: '#250F28',
+                        period: '#E56164',
+                        'period-dark': '#863E3F',
+                        blueish: '#6165E5',
+                        'blueish-dark': '#3D4091',
+                        babyblue: '#61A7E5',
+                        'moonly-gold': '#F1C768',
+                        'moonly-gold-dark': '#967B3F',
+                    },
+                    fontFamily: {
+                        sans: ['Gabarito', 'system-ui', 'sans-serif'],
+                        serif: ['Fraunces', 'Georgia', 'serif'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -10px rgba(218, 147, 226, 0.4)',
+                        'glow-lg': '0 0 120px -20px rgba(218, 147, 226, 0.5)',
+                        'gold-glow': '0 0 80px -10px rgba(241, 199, 104, 0.35)',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-slow': 'float 9s ease-in-out infinite',
+                        'pulse-soft': 'pulseSoft 4s ease-in-out infinite',
+                        'fade-up': 'fadeUp 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        pulseSoft: {
+                            '0%, 100%': { opacity: '0.4' },
+                            '50%': { opacity: '0.8' },
+                        },
+                        fadeUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="bg-background text-text font-sans antialiased">
+
+    <!-- Háttér dekoráció -->
+    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div
+            class="absolute -top-40 -left-40 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] animate-pulse-soft">
+        </div>
+        <div class="absolute top-1/3 -right-40 w-[600px] h-[600px] bg-blueish/15 rounded-full blur-[140px] animate-pulse-soft"
+            style="animation-delay: 2s;"></div>
+        <div class="absolute bottom-0 left-1/3 w-[500px] h-[500px] bg-moonly-gold/10 rounded-full blur-[130px] animate-pulse-soft"
+            style="animation-delay: 4s;"></div>
+    </div>
+
+    <!-- ============== NAVIGÁCIÓ ============== -->
+    <nav class="site-nav fixed inset-x-0 top-0 z-50 border-b border-primary/10 bg-background/95 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="#" class="flex items-center gap-3 shrink-0">
+                    <img src="assets/moonly_header.svg" alt="Moonly" class="w-36 sm:w-44 md:w-48 h-auto">
+                </a>
+
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#kutatas"
+                        class="text-text/70 hover:text-text transition-colors text-sm font-medium">Kutatás</a>
+                    <a href="#betet"
+                        class="text-text/70 hover:text-text transition-colors text-sm font-medium">Betét</a>
+                    <a href="#funkciok"
+                        class="text-text/70 hover:text-text transition-colors text-sm font-medium">App</a>
+                    <a href="#csapat"
+                        class="text-text/70 hover:text-text transition-colors text-sm font-medium">Csapat</a>
+                </div>
+
+                <button type="button" id="nav-toggle"
+                    class="nav-toggle md:hidden relative w-11 h-11 rounded-xl text-text hover:bg-primary/10 transition-colors"
+                    aria-expanded="false" aria-controls="nav-menu" aria-label="Menü megnyitása">
+                    <span class="nav-toggle__icon" aria-hidden="true">
+                        <svg id="nav-icon-open" class="nav-toggle__svg" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                d="M4 7h16M4 12h16M4 17h16" />
+                        </svg>
+                        <svg id="nav-icon-close" class="nav-toggle__svg hidden" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                d="M5 5l14 14M19 5L5 19" />
+                        </svg>
+                    </span>
+                </button>
+            </div>
+
+            <div id="nav-menu"
+                class="nav-menu hidden md:hidden border-t border-primary/10 bg-background/98 backdrop-blur-md"
+                role="navigation" aria-label="Mobil menü">
+                <div class="flex flex-col py-3 pb-4">
+                    <a href="#kutatas"
+                        class="nav-menu__link px-2 py-3 rounded-xl text-text/80 hover:text-text hover:bg-primary/10 text-base font-medium transition-colors">Kutatás</a>
+                    <a href="#betet"
+                        class="nav-menu__link px-2 py-3 rounded-xl text-text/80 hover:text-text hover:bg-primary/10 text-base font-medium transition-colors">Betét</a>
+                    <a href="#funkciok"
+                        class="nav-menu__link px-2 py-3 rounded-xl text-text/80 hover:text-text hover:bg-primary/10 text-base font-medium transition-colors">App</a>
+                    <a href="#csapat"
+                        class="nav-menu__link px-2 py-3 rounded-xl text-text/80 hover:text-text hover:bg-primary/10 text-base font-medium transition-colors">Csapat</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============== HERO SZEKCIÓ ============== -->
+    <section class="relative pt-24 pb-24 lg:pt-32 lg:pb-32">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+                <div class="space-y-8">
+                    <!---<div
+                        class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium">
+                            <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                            Új - most már magyarul is!
+                        </div>
+                    -->
+
+                    <h1 class=" text-5xl md:text-6xl lg:text-7xl font-semibold leading-[1.05] tracking-tight">
+                        A női egészség<br>
+                        nem lehet<em class="text-primary not-italic relative">
+                            tabu!
+                            <svg class="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 12" fill="none">
+                                <path d="M2 9C40 3 80 3 198 9" stroke="#F1C768" stroke-width="3"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </em><br>
+
+                    </h1>
+
+                    <p class="text-lg md:text-xl text-text/70 max-w-xl leading-relaxed">
+                        A Moonly Project célja hogy segítsen a nőknek megérteni testük működését, és ezáltal az
+                        egészségüket jobban megőrizni.
+                    </p>
+
+                    <a href="#bemutatkozott"
+                        class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-primary text-background font-semibold hover:bg-primary/90 transition-all hover:shadow-glow-lg hover:-translate-y-0.5">
+                        Tovább
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </a>
+
+                    <!-- Bizalmi jelek -->
+                    <!--div class="flex items-center gap-8 pt-6">
+                        <div>
+                            <div class=" text-3xl font-semibold text-primary">50k+</div>
+                            <div class="text-sm text-text/60">aktív felhasználó</div>
+                        </div>
+                        <div class="w-px h-12 bg-primary/20"></div>
+                        <div>
+                            <div class=" text-3xl font-semibold text-moonly-gold">4.9</div>
+                            <div class="text-sm text-text/60">App Store értékelés</div>
+                        </div>
+                        <div class="w-px h-12 bg-primary/20 hidden sm:block"></div>
+                        <div class="hidden sm:block">
+                            <div class=" text-3xl font-semibold text-babyblue">100%</div>
+                            <div class="text-sm text-text/60">adatvédelem</div>
+                        </div>
+                    </div-->
+                </div>
+
+                <!-- HERO KABALA -->
+                <div class="relative flex justify-center lg:justify-end">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-br from-primary/30 via-blueish/20 to-moonly-gold/20 blur-3xl rounded-full">
+                    </div>
+
+                    <div class="relative w-[min(100%,320px)] sm:w-[380px] md:w-[420px] lg:w-[460px] animate-float">
+                        <img src="assets/moonly_upscaled_nobackground.png"
+                            alt="Moonly kabala - a Moonly női egészség app barátságos kabalája" width="460" height="600"
+                            class="w-full h-auto drop-shadow-[0_24px_48px_rgba(218,147,226,0.35)]" loading="eager"
+                            fetchpriority="high" />
+                    </div>
+
+                    <!-- Lebegő dekoratív elemek -->
+                    <div
+                        class="absolute -top-4 -right-4 md:right-12 w-24 h-24 rounded-2xl bg-blueish/90 shadow-gold-glow flex items-center justify-center animate-float-slow rotate-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-venus-icon lucide-venus">
+                            <path d="M12 15v7" />
+                            <path d="M9 19h6" />
+                            <circle cx="12" cy="9" r="6" />
+                        </svg>
+                    </div>
+                    <div class="absolute bottom-12 -left-4 md:left-0 w-20 h-20 rounded-2xl bg-blueish-dark/90 shadow-glow flex items-center justify-center animate-float -rotate-6"
+                        style="animation-delay: 1.5s;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-heart-handshake-icon lucide-heart-handshake">
+                            <path
+                                d="M19.414 14.414C21 12.828 22 11.5 22 9.5a5.5 5.5 0 0 0-9.591-3.676.6.6 0 0 1-.818.001A5.5 5.5 0 0 0 2 9.5c0 2.3 1.5 4 3 5.5l5.535 5.362a2 2 0 0 0 2.879.052 2.12 2.12 0 0 0-.004-3 2.124 2.124 0 1 0 3-3 2.124 2.124 0 0 0 3.004 0 2 2 0 0 0 0-2.828l-1.881-1.882a2.41 2.41 0 0 0-3.409 0l-1.71 1.71a2 2 0 0 1-2.828 0 2 2 0 0 1 0-2.828l2.823-2.762" />
+                        </svg>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============== LOGO BAR / PRESS ============== -->
+    <section id="bemutatkozott" class="py-12 border-y border-primary/10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <p class="text-center text-sm uppercase tracking-widest text-text/50 mb-8">eddig bemutatkozott itt</p>
+            <div class="grid grid-cols-2 gap-8 items-center opacity-60">
+                <!-- 5 LOGO PLACEHOLDER -->
+                <div
+                    class="h-auto p-3 rounded-lg bg-foreground/60 flex items-center justify-center text-text/40 text-xs">
+                    <img src="assets/otio_logo.svg" alt="Otio Logo" class="w-32 h-auto">
+                </div>
+                <div
+                    class="h-auto p-3 rounded-lg bg-foreground/60 flex items-center justify-center text-text/40 text-xs">
+                    <img src="assets/tudok_header.png" alt="TUDOK Logo" class="w-full h-auto">
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============== EKOSZISZTÉMA INTRO ============== -->
+    <section class="pt-24 lg:pt-32 pb-8">
+        <div class="max-w-3xl mx-auto px-6 lg:px-8 text-center">
+            <p class="text-primary font-semibold text-sm uppercase tracking-widest mb-4">Egy holisztikus megközelítés
+            </p>
+            <h2 class=" text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight">
+                Három pillér, egyetlen<br>
+                <em class="text-moonly-gold not-italic">küldetés</em>
+            </h2>
+            <p class="text-lg text-text/70 mt-6 leading-relaxed">
+                Ahhoz hogy felmérjük a valódi szükségleteket, piackutatást végeztünk a nők körében.
+            </p>
+        </div>
+    </section>
+
+    <!-- ============== 1. KUTATÁS ============== -->
+    <section class="py-24 lg:py-32 relative">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-start">
+
+                <div class="space-y-6">
+                    <div id="kutatas"
+                        class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium">
+                        <span class="font-semibold">01.</span>
+                        Kutatás
+                    </div>
+                    <h2 class=" text-4xl md:text-5xl font-semibold leading-tight">
+                        <em class="text-primary not-italic">100+ hölgy</em> hangja, akiket meghallottunk
+                    </h2>
+                    <p class="text-lg text-text/70 leading-relaxed">
+                        Mielőtt neki álltunk volna a termékfejlesztésnek, megkérdeztünk több mint száz, különböző
+                        életkorú
+                        nőt olyan kérdésekről, amelyekkel egy pontosabb képet kaphatunk a legégetőbb problémákról. A
+                        kérdések között szereplt a higiéniai szokásukról, termékhasználatról, illetve saját vélemény
+                        kifejtéséről a női megélt tapasztalatokkal kapcsolatban.
+                    </p>
+
+                    <!-- KUTATÁSI STATISZTIKÁK -->
+                    <div class="grid sm:grid-cols-2 gap-4 pt-4">
+                        <div class="p-6 rounded-2xl bg-foreground border border-primary/15">
+                            <div class=" text-4xl font-semibold text-primary mb-1">42%</div>
+                            <p class="text-sm text-text/70">nem tudja, hogy a környezetében van-e nőgyógyászati
+                                betegséggel rendelkező családtagja</p>
+                        </div>
+                        <div class="p-6 rounded-2xl bg-foreground border border-primary/15">
+                            <div class=" text-4xl font-semibold text-primary mb-1">2/3</div>
+                            <p class="text-sm text-text/70">környezetszennyező, eldobható termékeket használ</p>
+                        </div>
+                        <div class="p-6 rounded-2xl bg-foreground border border-primary/15">
+                            <div class=" text-4xl font-semibold text-primary mb-1">89%</div>
+                            <p class="text-sm text-text/70">szívesen kipróbálna új mensis termékeket</p>
+                        </div>
+                        <div class="p-6 rounded-2xl bg-foreground border border-primary/15">
+                            <div class=" text-4xl font-semibold text-primary mb-1">90%</div>
+                            <p class="text-sm text-text/70">rendkívűl erős vérzést tapasztal</p>
+                        </div>
+                    </div>
+
+                    <!--div class="flex items-center gap-4 pt-4">
+                        <a href="#"
+                            class="inline-flex items-center gap-2 text-primary hover:text-text font-semibold group">
+                            Olvasd el a teljes tanulmányt
+                            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </a>
+                    </div-->
+                </div>
+
+                <!-- KUTATÁS VIZUÁL PLACEHOLDER -->
+                <div class="relative lg:mt-14 pt-6">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-br from-primary/30 to-secondary/20 blur-3xl rounded-full">
+                    </div>
+
+                    <div
+                        class="asset-placeholder relative aspect-[4/5] rounded-[2.5rem] bg-gradient-to-br from-primary/20 via-foreground to-background border border-primary/20 overflow-hidden flex flex-col items-center justify-center p-8 text-center">
+                        <img src="assets/diagrams.png" alt="Kutatási vizuál" class="w-full h-auto">
+                    </div>
+
+                    <!-- Clipboard karakter - lebegő dekoráció -->
+                    <img src="assets/moonly_clipboard.png" alt="Moonly clipboard karakter"
+                        class="absolute -top-20 -right-6 sm:-top-28 sm:-right-10 w-32 sm:w-44 lg:w-52 h-auto drop-shadow-[0_10px_30px_rgba(218,147,226,0.45)] animate-float-slow pointer-events-none select-none z-10">
+
+                    <!-- Idézet kártyák - egymás mellett -->
+                    <div class="grid sm:grid-cols-2 gap-4 mt-6">
+                        <div class="p-5 rounded-2xl bg-background border border-primary/30 shadow-glow">
+                            <svg class="w-6 h-6 text-primary mb-2" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849h-4v-10h9.983zm14.017 0v7.391c0 5.704-3.748 9.571-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849h-3.983v-10h9.983z" />
+                            </svg>
+                            <p class="text-sm text-text/80 italic leading-relaxed">
+                                „Nehéz hiteles információt kapni a tüneteimre. A Google-ön már nem is merek rákeresni
+                                iyenekre."
+                            </p>
+                            <p class="text-xs text-text/50 mt-2">- Résztvevő</p>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-background border border-primary/30 shadow-glow">
+                            <svg class="w-6 h-6 text-primary mb-2" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849h-4v-10h9.983zm14.017 0v7.391c0 5.704-3.748 9.571-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849h-3.983v-10h9.983z" />
+                            </svg>
+                            <p class="text-sm text-text/80 italic leading-relaxed">
+                                „Férfiakat is be kellene avatni a női szervezet működésébe!"
+                            </p>
+                            <p class="text-xs text-text/50 mt-2">- Résztvevő</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============== 2. BETÉT (HAMAROSAN) ============== -->
+    <section class="py-24 lg:py-32 relative">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-start">
+
+                <!-- BETÉT TERMÉK BEMUTATÓ -->
+                <div class="order-2 lg:order-1 relative lg:mt-14 pt-6">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-br from-primary/30 to-secondary/20 blur-3xl rounded-full">
+                    </div>
+
+                    <div class="relative grid grid-cols-2 gap-4">
+                        <div
+                            class="relative aspect-[3/4] rounded-[2rem] bg-gradient-to-br from-primary/15 via-foreground to-background border border-primary/20 overflow-hidden flex items-center justify-center p-4">
+                            <img src="assets/sanpad_top.png" alt="Moonly betét - felülnézet"
+                                class="w-full h-full object-contain">
+                        </div>
+                        <div
+                            class="relative aspect-[3/4] rounded-[2rem] bg-gradient-to-br from-primary/15 via-foreground to-background border border-primary/20 overflow-hidden flex items-center justify-center p-4">
+                            <img src="assets/sanpad_side.png" alt="Moonly betét - oldalnézet"
+                                class="w-full h-full object-contain">
+                        </div>
+                    </div>
+
+                    <!-- Pad karakter - lebegő dekoráció -->
+                    <img src="assets/moonly_pad.png" alt="Moonly pad karakter"
+                        class="absolute -top-14 -right-6 sm:-top-28 sm:-right-10 w-32 sm:w-44 lg:w-52 h-auto drop-shadow-[0_10px_30px_rgba(218,147,226,0.45)] animate-float-slow pointer-events-none select-none z-10">
+                </div>
+
+                <div class="order-1 lg:order-2 space-y-6">
+                    <div id="betet"
+                        class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium">
+                        <span class="font-semibold">02.</span>
+                        Betét
+                    </div>
+                    <h2 class=" text-4xl md:text-5xl font-semibold leading-tight">
+                        Az új betét, amit <em class="text-primary not-italic">tényleg</em> jó használni.
+                    </h2>
+                    <p class="text-lg text-text/70 leading-relaxed">
+                        A kutatás során a leggyakoribb panasz az volt, hogy a hagyományos betétek kényelmetlenek,
+                        irritálják a bőrt, és terhelik a környezetet. Így megalkottuk a sajátunkat - ami minden
+                        szempontból más, mint amiket eddig használtál.
+                    </p>
+
+                    <!-- BETÉT FUNKCIÓK -->
+                    <ul class="space-y-4 pt-2">
+                        <li class="flex items-start gap-4">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    stroke-width="2">
+                                    <path
+                                        d="M12.67 19a2 2 0 0 0 1.416-.588l6.154-6.172a6 6 0 0 0-8.49-8.49L5.586 9.914A2 2 0 0 0 5 11.328V18a1 1 0 0 0 1 1z" />
+                                    <path d="M16 8 2 22" />
+                                    <path d="M17.5 15H9" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-text">100% organikus pamut</h4>
+                                <p class="text-text/60 text-sm">Klórmentes, illatanyag-mentes, allergiát kiváltó
+                                    anyagoktól mentes.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    stroke-width="2">
+                                    <path d="m12.99 6.74 1.93 3.44" />
+                                    <path d="M19.136 12a10 10 0 0 1-14.271 0" />
+                                    <path d="m21 21-2.16-3.84" />
+                                    <path d="m3 21 8.02-14.26" />
+                                    <circle cx="12" cy="5" r="2" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-text">Anatómiailag tervezett</h4>
+                                <p class="text-text/60 text-sm">Hosszú tervezési folyamat során alakítottuk ki a
+                                    legkényelmesebb méretet és formát.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" />
+                                    <path d="M12 22V12" />
+                                    <polyline points="3.29 7 12 12 20.71 7" />
+                                    <path d="m7.5 4.27 9 5.15" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-text">Lebomló csomagolás</h4>
+                                <p class="text-text/60 text-sm">Teljesen műanyagmentes csomagolás, ami 90 napon belül
+                                    komposztálható.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============== 3. APP SHOWCASE ============== -->
+    <section class="py-24 lg:py-32 relative">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-start">
+
+                <!-- APP SCREEN BEMUTATÓ -->
+                <div class="order-2 lg:order-1 relative lg:mt-14 pt-6">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-br from-primary/30 to-secondary/20 blur-3xl rounded-full">
+                    </div>
+
+                    <div class="relative h-[600px] flex items-center justify-center">
+                        <div
+                            class="asset-placeholder absolute -left-5 top-12 w-[220px] aspect-[9/19] rounded-[2.5rem] bg-foreground border-8 border-foreground shadow-2xl rotate-[-8deg] z-10 overflow-hidden">
+                            <img src="assets/simulator3.png" alt="App calendar" class="w-full h-full object-contain">
+                        </div>
+                        <div
+                            class="asset-placeholder relative w-[260px] aspect-[9/19] rounded-[2.5rem] bg-foreground border-8 border-foreground shadow-2xl z-20 overflow-hidden">
+                            <img src="assets/simulator1.png" alt="App main" class="w-full h-full object-contain">
+                        </div>
+                        <div
+                            class="asset-placeholder absolute -right-5 top-12 w-[220px] aspect-[9/19] rounded-[2.5rem] bg-foreground border-8 border-foreground shadow-2xl rotate-[8deg] z-10 overflow-hidden">
+                            <img src="assets/simulator2.png" alt="App statistics" class="w-full h-full object-contain">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-1 lg:order-2 space-y-6">
+                    <div id="funkciok"
+                        class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium">
+                        <span class="font-semibold">03.</span>
+                        Az alkalmazás
+                    </div>
+                    <h2 class=" text-4xl md:text-5xl font-semibold leading-tight">
+                        Egyszerű. Gyors. <em class="text-primary not-italic">A tied.</em>
+                    </h2>
+                    <p class="text-lg text-text/70 leading-relaxed">
+                        A Moonly alkalamzás megalkotásakor mindig azt tartottuk szem előtt, hogy a lehető legjobb legyen
+                        a felhasználói élmény minden korosztály számára! *
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row sm:items-end gap-6 sm:gap-8 pt-4">
+                        <ul class="space-y-4 flex-1 min-w-0">
+                            <li class="flex items-start gap-4">
+                                <div
+                                    class="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-1">
+                                    <svg class="w-3.5 h-3.5 text-primary" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-text">Intuitív naplózás</h4>
+                                    <p class="text-text/60 text-sm">Egy érintéssel rögzítheted a tüneteket, hangulatot,
+                                        energiát.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <div
+                                    class="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-1">
+                                    <svg class="w-3.5 h-3.5 text-primary" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-text">Sötét és világos téma</h4>
+                                    <p class="text-text/60 text-sm">Az este lefekvés előtti nézegetéshez is kíméletes.
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <div
+                                    class="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-1">
+                                    <svg class="w-3.5 h-3.5 text-primary" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-text">Offline is működik</h4>
+                                    <p class="text-text/60 text-sm">Az adataidhoz internet nélkül is hozzáférsz, bárhol
+                                        vagy.</p>
+                                </div>
+                            </li>
+                        </ul>
+                        <img src="assets/moonly_phone.png" alt="Moonly telefon karakter"
+                            class="w-36 sm:w-44 lg:w-48 h-auto flex-shrink-0 mx-auto sm:mx-0 drop-shadow-[0_10px_30px_rgba(218,147,226,0.45)] animate-float-slow pointer-events-none select-none">
+                    </div>
+                    <p class="text-sm text-text/50 pl-4">
+                        * Az alkalmazást 16 éves kortól lehet használni!
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============== FUNKCIÓK ============== -->
+    <section class="py-24 lg:py-32">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+            <div class="text-center max-w-3xl mx-auto mb-20">
+                <p class="text-primary font-semibold text-sm uppercase tracking-widest mb-4">Funkciók</p>
+                <h2 class=" text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight mb-6">
+                    Csak annyi, amennyire<br>
+                    <em class="text-moonly-gold not-italic">igazán</em> szükséged van
+                </h2>
+                <p class="text-lg text-text/70">
+                    A Moonly nem csak egy naptár. Egy kedves társ, aki segít megérteni a
+                    tested
+                    működését.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- Funkció 1 -->
+                <div
+                    class="group relative p-8 rounded-3xl bg-foreground border border-primary/10 hover:border-period/30 transition-all hover:-translate-y-1 hover:shadow-glow">
+                    <div
+                        class="w-14 h-14 rounded-2xl bg-period/15 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg class="w-7 h-7 text-period" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <h3 class=" text-2xl font-semibold mb-3">Pontos ciklus követés</h3>
+                    <p class="text-text/70 leading-relaxed">
+                        Naplózd a menstruációd, és az esetleges tüneteket! A Moonly rendszeres
+                        használat után egyre pontosabb előrejelzést tud adni.
+                    </p>
+                </div>
+
+                <!-- Funkció 2 -->
+                <div
+                    class="group relative p-8 rounded-3xl bg-foreground border border-primary/10 hover:border-blueish/30 transition-all hover:-translate-y-1 hover:shadow-glow">
+                    <div
+                        class="w-14 h-14 rounded-2xl bg-blueish/15 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg class="w-7 h-7 text-blueish" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3 class=" text-2xl font-semibold mb-3">Hangulat napló</h3>
+                    <p class="text-text/70 leading-relaxed">
+                        Rögzítsd hogy érzed magad a különböző fázisok alatt! Így később visszanézve pontosabb képet
+                        kaphatsz a tested működéséről.
+                    </p>
+                </div>
+
+                <!-- Funkció 3 -->
+                <div
+                    class="group relative p-8 rounded-3xl bg-foreground border border-primary/10 hover:border-moonly-gold/30 transition-all hover:-translate-y-1 hover:shadow-gold-glow">
+                    <div
+                        class="w-14 h-14 rounded-2xl bg-moonly-gold/15 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg class="w-7 h-7 text-moonly-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                    </div>
+                    <h3 class=" text-2xl font-semibold mb-3">Orvosi tudástár</h3>
+                    <p class="text-text/70 leading-relaxed">
+                        Megbízható, ellenőrzött forrásból származó cikkek és források segítenek megérteni az orvosi
+                        szakzsargont
+                    </p>
+                </div>
+
+                <!-- Funkció 4 -->
+                <div
+                    class="group relative p-8 rounded-3xl bg-foreground border border-primary/10 hover:border-primary/30 transition-all hover:-translate-y-1 hover:shadow-glow">
+                    <div
+                        class="w-14 h-14 rounded-2xl bg-primary/15 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                    </div>
+                    <h3 class=" text-2xl font-semibold mb-3">Részletes statisztika</h3>
+                    <p class="text-text/70 leading-relaxed">
+                        Vizualizált grafikonok a ciklusodról, hangulatodról és tüneteidről - hogy átlásd a adataidat.
+                    </p>
+                </div>
+
+                <!-- Funkció 5 -->
+                <div
+                    class="group relative p-8 rounded-3xl bg-foreground border border-primary/10 hover:border-babyblue/30 transition-all hover:-translate-y-1 hover:shadow-glow">
+                    <div
+                        class="w-14 h-14 rounded-2xl bg-babyblue/15 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg class="w-7 h-7 text-babyblue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                        </svg>
+                    </div>
+                    <h3 class=" text-2xl font-semibold mb-3">Emlékeztetők</h3>
+                    <p class="text-text/70 leading-relaxed">
+                        Soha többé ne lepjen meg a menstruációd. Diszkrét, személyre szabható értesítések, amik időben
+                        jeleznek.
+                    </p>
+                </div>
+
+                <!-- Funkció 6 -->
+                <div
+                    class="group relative p-8 rounded-3xl bg-gradient-to-br from-primary/20 via-foreground to-foreground border border-primary/30 hover:-translate-y-1 transition-all hover:shadow-glow-lg">
+                    <div
+                        class="w-14 h-14 rounded-2xl bg-text/10 backdrop-blur flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg class="w-7 h-7 text-text" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                    </div>
+                    <h3 class=" text-2xl font-semibold mb-3">Prioritás az adatvédelem</h3>
+                    <p class="text-text/70 leading-relaxed">
+                        A kommunikáció a végpontok között titkosítva. Semmit nem osztunk meg harmadik féllel - az
+                        adataid kizárólag rád tartoznak!
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============== CSAPAT ============== -->
+    <section class="py-24 lg:py-32">
+        <div class="max-w-5xl mx-auto px-6 lg:px-8">
+
+            <div id="csapat" class="text-center max-w-2xl mx-auto mb-16 lg:mb-20">
+                <p class="text-secondary font-semibold text-sm uppercase tracking-widest mb-4">A csapat</p>
+                <h2 class="text-4xl md:text-5xl font-semibold leading-tight">
+                    Kik állnak a <em class="text-primary not-italic">Moonly</em> mögött?
+                </h2>
+                <p class="text-lg text-text/70 mt-6 leading-relaxed">
+                    Ketten indítottuk el a projektet: célunk, hogy segítsünk a nőknek megérteni a saját testük
+                    működését.
+                </p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-12 lg:gap-16 max-w-3xl mx-auto items-stretch">
+
+                <article class="team-member-card flex flex-col h-full items-center text-center max-w-xs mx-auto w-full">
+                    <div class="h-64 sm:h-72 w-full flex items-end justify-center mb-6 shrink-0">
+                        <img src="assets/kleh_sara.png" alt="Kléh Sára Laura portréja" width="400" height="500"
+                            class="max-h-full w-auto max-w-[14rem] object-contain object-bottom" loading="lazy" />
+                    </div>
+                    <h3
+                        class="text-xl md:text-2xl font-semibold min-h-[3.25rem] md:min-h-[3.75rem] flex items-center justify-center leading-tight">
+                        Kléh Sára Laura
+                    </h3>
+                    <p class="text-primary/90 font-medium mt-1 shrink-0">18 éves</p>
+                    <p class="text-text/70 leading-relaxed mt-4 w-full">
+                        Betétfejlesztés és kutatás
+                    </p>
+                </article>
+
+                <article class="team-member-card flex flex-col h-full items-center text-center max-w-xs mx-auto w-full">
+                    <div class="h-64 sm:h-72 w-full flex items-end justify-center mb-6 shrink-0">
+                        <img src="assets/levai_levente.png" alt="Lévai Levente Gábor portréja" width="400" height="500"
+                            class="max-h-full w-auto max-w-[14rem] object-contain object-bottom" loading="lazy" />
+                    </div>
+                    <h3
+                        class="text-xl md:text-2xl font-semibold min-h-[3.25rem] md:min-h-[3.75rem] flex items-center justify-center leading-tight">
+                        Lévai Levente Gábor
+                    </h3>
+                    <p class="text-primary/90 font-medium mt-1 shrink-0">18 éves</p>
+                    <p class="text-text/70 leading-relaxed mt-4 w-full">
+                        Appfejlesztés és brandépítés
+                    </p>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============== CTA / LETÖLTÉS ============== -->
+    <section class="py-24 lg:py-32">
+        <div class="max-w-6xl mx-auto px-6 lg:px-8">
+            <div
+                class="relative rounded-[2.5rem] bg-gradient-to-br from-secondary via-foreground to-background border border-primary/20 p-10 md:p-16 overflow-hidden">
+
+                <div class="absolute -top-20 -right-20 w-80 h-80 bg-primary/20 rounded-full blur-3xl"></div>
+                <div class="absolute -bottom-20 -left-20 w-80 h-80 bg-moonly-gold/20 rounded-full blur-3xl"></div>
+
+                <div class="relative grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 id="letoltes" class=" text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight mb-6">
+                            Felkeltettük az <em class="text-moonly-gold not-italic">érdeklődésed?</em>
+                        </h2>
+                        <p class="text-lg text-text/80 mb-8 leading-relaxed">
+                            Iratkozz fel levelezőlistánkra, hogy rögtön értesülj amikor az alkalmazás elérhetővé válik
+                        </p>
+                        <form class="flex flex-col sm:flex-row gap-3 max-w-lg" action="#" method="post">
+                            <label for="cta-email" class="sr-only">E-mail cím</label>
+                            <input type="email" id="cta-email" name="email" required autocomplete="email"
+                                placeholder="e-mail@pelda.hu"
+                                class="flex-1 min-w-0 px-6 py-4 rounded-full bg-text/10 border border-text/20 text-text placeholder:text-text/40 font-medium focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/30 transition-all" />
+                            <button type="submit"
+                                class="inline-flex items-center justify-center px-8 py-4 rounded-full bg-text text-background font-semibold hover:bg-text/90 transition-all hover:-translate-y-0.5 shrink-0">
+                                Feliratkozom
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============== FOOTER ============== -->
+    <footer class="border-t border-primary/10 py-16">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+
+                <div class="lg:col-span-1">
+                    <a href="#" class="flex items-center gap-3 group mb-4">
+                        <!-- LOGO PLACEHOLDER -->
+                        <img src="assets/moonly_header.svg" alt="Moonly Logo" class="w-48 h-auto">
+                    </a>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-4 text-sm uppercase tracking-wider text-text/80">Termék</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#funkciok" class="text-text/60 hover:text-primary transition-colors">Funkciók</a>
+                        </li>
+                        <li><a href="#hogyan" class="text-text/60 hover:text-primary transition-colors">Hogyan
+                                működik</a></li>
+                        <li><a href="#" class="text-text/60 hover:text-primary transition-colors">Moonly+</a></li>
+                        <li><a href="#letoltes" class="text-text/60 hover:text-primary transition-colors">Letöltés</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-4 text-sm uppercase tracking-wider text-text/80">Vállalat</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="text-text/60 hover:text-primary transition-colors">Rólunk</a></li>
+                        <li><a href="#" class="text-text/60 hover:text-primary transition-colors">Blog</a></li>
+                        <li><a href="#" class="text-text/60 hover:text-primary transition-colors">Kapcsolat</a></li>
+                        <li><a href="#" class="text-text/60 hover:text-primary transition-colors">Karrier</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-4 text-sm uppercase tracking-wider text-text/80">Jogi</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="text-text/60 hover:text-primary transition-colors">Adatvédelem</a></li>
+                        <li><a href="#" class="text-text/60 hover:text-primary transition-colors">Felhasználási
+                                feltételek</a></li>
+                        <li><a href="#" class="text-text/60 hover:text-primary transition-colors">Cookie szabályzat</a>
+                        </li>
+                        <li><a href="#" class="text-text/60 hover:text-primary transition-colors">Impresszum</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="pt-8 border-t border-primary/10 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-sm text-text/50">© 2026 Moonly. Minden jog fenntartva.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+            (function () {
+                const toggle = document.getElementById("nav-toggle");
+                const menu = document.getElementById("nav-menu");
+                const iconOpen = document.getElementById("nav-icon-open");
+                const iconClose = document.getElementById("nav-icon-close");
+                if (!toggle || !menu) return;
+
+                function setOpen(open) {
+                    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+                    toggle.setAttribute("aria-label", open ? "Menü bezárása" : "Menü megnyitása");
+                    menu.classList.toggle("hidden", !open);
+                    menu.classList.toggle("nav-menu--open", open);
+                    iconOpen?.classList.toggle("hidden", open);
+                    iconClose?.classList.toggle("hidden", !open);
+                    document.body.classList.toggle("nav-open", open);
+                }
+
+                toggle.addEventListener("click", function () {
+                    setOpen(toggle.getAttribute("aria-expanded") !== "true");
+                });
+
+                menu.querySelectorAll(".nav-menu__link").forEach(function (link) {
+                    link.addEventListener("click", function () { setOpen(false); });
+                });
+
+                window.addEventListener("resize", function () {
+                    if (window.matchMedia("(min-width: 768px)").matches) setOpen(false);
+                });
+            })();
+    </script>
+
+</body>
+
+</html>
