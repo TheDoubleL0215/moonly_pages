@@ -235,7 +235,7 @@
     </section>
 
     <!-- ============== LOGO BAR / PRESS ============== -->
-    <section id="bemutatkozott" class="py-12 border-y border-primary/10">
+    <section id="bemutatkozott" class="py-6 border-y border-primary/10">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <p class="text-center text-sm uppercase tracking-widest text-text/50 mb-8">eddig bemutatkozott itt</p>
             <div class="grid grid-cols-2 gap-8 items-center opacity-60">
@@ -254,7 +254,7 @@
 
 
     <!-- ============== EKOSZISZTÉMA INTRO ============== -->
-    <section class="pt-24 lg:pt-32 pb-8">
+    <section class="pt-24 lg:pt-32">
         <div class="max-w-3xl mx-auto px-6 lg:px-8 text-center">
             <p class="text-primary font-semibold text-sm uppercase tracking-widest mb-4">Egy holisztikus megközelítés
             </p>
@@ -271,7 +271,7 @@
     <!-- ============== 1. KUTATÁS ============== -->
     <section class="py-24 lg:py-32 relative">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-16 items-start">
+            <div class="grid lg:grid-cols-2 gap-24 items-start">
 
                 <div class="space-y-6">
                     <div id="kutatas"
@@ -373,7 +373,7 @@
     <!-- ============== 2. BETÉT (HAMAROSAN) ============== -->
     <section class="py-24 lg:py-32 relative">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-16 items-start">
+            <div class="grid lg:grid-cols-2 gap-24 items-start">
 
                 <!-- BETÉT TERMÉK BEMUTATÓ -->
                 <div class="order-2 lg:order-1 relative lg:mt-14 pt-6">
@@ -477,9 +477,9 @@
     </section>
 
     <!-- ============== 3. APP SHOWCASE ============== -->
-    <section class="py-24 lg:py-32 relative">
+    <section class="lg:py-12 relative">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-16 items-start">
+            <div class="grid lg:grid-cols-2 gap-24 items-center">
 
                 <!-- APP SCREEN BEMUTATÓ -->
                 <div class="order-2 lg:order-1 relative lg:mt-14 pt-6">
@@ -579,7 +579,7 @@
     </section>
 
     <!-- ============== FUNKCIÓK ============== -->
-    <section class="py-24 lg:py-32">
+    <section class="lg:py-32">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
 
             <div class="text-center max-w-3xl mx-auto mb-20">
@@ -770,24 +770,35 @@
                         <p class="text-lg text-text/80 mb-8 leading-relaxed">
                             Iratkozz fel levelezőlistánkra, hogy rögtön értesülj, amikor az alkalmazás elérhetővé válik!
                         </p>
-                        <form id="cta-form" class="flex flex-col sm:flex-row gap-3 max-w-lg" novalidate>
-                            <label for="cta-email" class="sr-only">E-mail cím</label>
-                            <input type="email" id="cta-email" name="email" required autocomplete="email"
-                                placeholder="e-mail@pelda.hu"
-                                class="flex-1 min-w-0 px-6 py-4 rounded-full bg-text/10 border border-text/20 text-text placeholder:text-text/40 font-medium focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/30 transition-all disabled:opacity-60 disabled:cursor-not-allowed" />
-                            <button type="submit" id="cta-submit"
-                                class="cta-submit inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-text text-background font-semibold hover:bg-text/90 transition-all hover:-translate-y-0.5 shrink-0 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0">
-                                <span class="cta-submit__label">Feliratkozom</span>
-                                <svg class="cta-submit__spinner hidden w-5 h-5 animate-spin" viewBox="0 0 24 24"
-                                    fill="none" aria-hidden="true">
-                                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2.5"
-                                        stroke-linecap="round" stroke-dasharray="44" stroke-dashoffset="22"
-                                        opacity="0.85"></circle>
-                                </svg>
-                            </button>
+                        <form id="cta-form" class="max-w-lg space-y-4" novalidate>
+                            <div class="flex flex-col sm:flex-row gap-3">
+                                <label for="cta-email" class="sr-only">E-mail cím</label>
+                                <input type="email" id="cta-email" name="email" required autocomplete="email"
+                                    placeholder="e-mail@pelda.hu"
+                                    class="flex-1 min-w-0 px-6 py-4 rounded-full bg-text/10 border border-text/20 text-text placeholder:text-text/40 font-medium focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/30 transition-all disabled:opacity-60 disabled:cursor-not-allowed" />
+                                <button type="submit" id="cta-submit" disabled
+                                    class="cta-submit inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-text text-background font-semibold hover:bg-text/90 transition-all hover:-translate-y-0.5 shrink-0 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0">
+                                    <span class="cta-submit__label">Feliratkozom</span>
+                                    <svg class="cta-submit__spinner hidden w-5 h-5 animate-spin" viewBox="0 0 24 24"
+                                        fill="none" aria-hidden="true">
+                                        <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2.5"
+                                            stroke-linecap="round" stroke-dasharray="44" stroke-dashoffset="22"
+                                            opacity="0.85"></circle>
+                                    </svg>
+                                </button>
+                            </div>
+                            <label for="cta-consent"
+                                class="cta-consent flex items-start gap-3 cursor-pointer text-sm text-text/70 leading-relaxed">
+                                <input type="checkbox" id="cta-consent" name="consent" required
+                                    class="cta-consent__checkbox mt-0.5 h-4 w-4 shrink-0 rounded border-text/30 bg-text/10 text-primary focus:ring-2 focus:ring-primary/40 focus:ring-offset-0 focus:ring-offset-background accent-primary cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" />
+                                <span>Elfogadom az <a href="/adatvedelem"
+                                        class="text-primary underline underline-offset-2 hover:text-text transition-colors"
+                                        target="_blank" rel="noopener noreferrer">Adatkezelési Tájékoztatót</a>, és
+                                    hozzájárulok az adataim kezeléséhez a kapcsolatfelvétel céljából.</span>
+                            </label>
+                            <p id="cta-status" role="status" aria-live="polite"
+                                class="cta-status hidden text-sm font-medium flex items-start gap-2"></p>
                         </form>
-                        <p id="cta-status" role="status" aria-live="polite"
-                            class="cta-status hidden mt-4 text-sm font-medium flex items-start gap-2"></p>
                     </div>
                 </div>
             </div>
@@ -861,10 +872,12 @@
             if (!form) return;
 
             const input = document.getElementById("cta-email");
+            const consent = document.getElementById("cta-consent");
             const submit = document.getElementById("cta-submit");
             const label = submit.querySelector(".cta-submit__label");
             const spinner = submit.querySelector(".cta-submit__spinner");
             const status = document.getElementById("cta-status");
+            let isLoading = false;
 
             const ICONS = {
                 success: '<svg class="w-5 h-5 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>',
@@ -888,12 +901,23 @@
                 status.textContent = "";
             }
 
+            function updateSubmitState() {
+                submit.disabled = isLoading || !consent.checked;
+            }
+
             function setLoading(loading) {
-                submit.disabled = loading;
+                isLoading = loading;
                 input.disabled = loading;
+                consent.disabled = loading;
                 spinner.classList.toggle("hidden", !loading);
                 label.textContent = loading ? "Küldés…" : "Feliratkozom";
+                updateSubmitState();
             }
+
+            consent.addEventListener("change", function () {
+                updateSubmitState();
+                if (!status.classList.contains("hidden")) clearStatus();
+            });
 
             input.addEventListener("input", function () {
                 if (!status.classList.contains("hidden")) clearStatus();
@@ -902,6 +926,12 @@
             form.addEventListener("submit", async function (event) {
                 event.preventDefault();
                 const email = (input.value || "").trim();
+
+                if (!consent.checked) {
+                    setStatus("error", "A feliratkozáshoz el kell fogadnod az Adatkezelési Tájékoztatót.");
+                    consent.focus();
+                    return;
+                }
 
                 if (!email || !input.checkValidity()) {
                     setStatus("error", "Kérlek adj meg egy érvényes e-mail címet.");
@@ -925,6 +955,7 @@
                     if (response.status === 200 && data.status === "success") {
                         setStatus("success", "Köszönjük! Sikeresen feliratkoztál a hírlevelünkre.");
                         form.reset();
+                        updateSubmitState();
                     } else if (response.status === 409 || data.status === "signed-already") {
                         setStatus("info", "Ez az e-mail cím már fel van iratkozva. Hamarosan jelentkezünk!");
                     } else if (response.status === 400 || data.status === "invalid-email") {
