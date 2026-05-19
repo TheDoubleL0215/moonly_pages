@@ -771,16 +771,24 @@
                         <p class="text-lg text-text/80 mb-8 leading-relaxed">
                             Iratkozz fel levelezőlistánkra, hogy rögtön értesülj amikor az alkalmazás elérhetővé válik
                         </p>
-                        <form class="flex flex-col sm:flex-row gap-3 max-w-lg" action="#" method="post">
+                        <form id="cta-form" class="flex flex-col sm:flex-row gap-3 max-w-lg" novalidate>
                             <label for="cta-email" class="sr-only">E-mail cím</label>
                             <input type="email" id="cta-email" name="email" required autocomplete="email"
                                 placeholder="e-mail@pelda.hu"
-                                class="flex-1 min-w-0 px-6 py-4 rounded-full bg-text/10 border border-text/20 text-text placeholder:text-text/40 font-medium focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/30 transition-all" />
-                            <button type="submit"
-                                class="inline-flex items-center justify-center px-8 py-4 rounded-full bg-text text-background font-semibold hover:bg-text/90 transition-all hover:-translate-y-0.5 shrink-0">
-                                Feliratkozom
+                                class="flex-1 min-w-0 px-6 py-4 rounded-full bg-text/10 border border-text/20 text-text placeholder:text-text/40 font-medium focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/30 transition-all disabled:opacity-60 disabled:cursor-not-allowed" />
+                            <button type="submit" id="cta-submit"
+                                class="cta-submit inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-text text-background font-semibold hover:bg-text/90 transition-all hover:-translate-y-0.5 shrink-0 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0">
+                                <span class="cta-submit__label">Feliratkozom</span>
+                                <svg class="cta-submit__spinner hidden w-5 h-5 animate-spin" viewBox="0 0 24 24"
+                                    fill="none" aria-hidden="true">
+                                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2.5"
+                                        stroke-linecap="round" stroke-dasharray="44" stroke-dashoffset="22"
+                                        opacity="0.85"></circle>
+                                </svg>
                             </button>
                         </form>
+                        <p id="cta-status" role="status" aria-live="polite"
+                            class="cta-status hidden mt-4 text-sm font-medium flex items-start gap-2"></p>
                     </div>
                 </div>
             </div>
@@ -873,6 +881,92 @@
                     if (window.matchMedia("(min-width: 768px)").matches) setOpen(false);
                 });
             })();
+
+        (function () {
+            const ENDPOINT = "https://collectemail-tjghi23prq-uc.a.run.app";
+            const form = document.getElementById("cta-form");
+            if (!form) return;
+
+            const input = document.getElementById("cta-email");
+            const submit = document.getElementById("cta-submit");
+            const label = submit.querySelector(".cta-submit__label");
+            const spinner = submit.querySelector(".cta-submit__spinner");
+            const status = document.getElementById("cta-status");
+
+            const ICONS = {
+                success: '<svg class="w-5 h-5 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>',
+                info: '<svg class="w-5 h-5 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>',
+                error: '<svg class="w-5 h-5 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>'
+            };
+
+            const TONES = {
+                success: "text-moonly-gold",
+                info: "text-babyblue",
+                error: "text-period"
+            };
+
+            function setStatus(tone, message) {
+                status.className = "cta-status mt-4 text-sm font-medium flex items-start gap-2 " + (TONES[tone] || "");
+                status.innerHTML = (ICONS[tone] || "") + "<span>" + message + "</span>";
+            }
+
+            function clearStatus() {
+                status.className = "cta-status hidden mt-4 text-sm font-medium flex items-start gap-2";
+                status.textContent = "";
+            }
+
+            function setLoading(loading) {
+                submit.disabled = loading;
+                input.disabled = loading;
+                spinner.classList.toggle("hidden", !loading);
+                label.textContent = loading ? "Küldés…" : "Feliratkozom";
+            }
+
+            input.addEventListener("input", function () {
+                if (!status.classList.contains("hidden")) clearStatus();
+            });
+
+            form.addEventListener("submit", async function (event) {
+                event.preventDefault();
+                const email = (input.value || "").trim();
+
+                if (!email || !input.checkValidity()) {
+                    setStatus("error", "Kérlek adj meg egy érvényes e-mail címet.");
+                    input.focus();
+                    return;
+                }
+
+                setLoading(true);
+                clearStatus();
+
+                try {
+                    const response = await fetch(ENDPOINT, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+                        body: JSON.stringify({ email: email })
+                    });
+
+                    let data = {};
+                    try { data = await response.json(); } catch (_) { }
+
+                    if (response.status === 200 && data.status === "success") {
+                        setStatus("success", "Köszönjük! Sikeresen feliratkoztál a hírlevelünkre.");
+                        form.reset();
+                    } else if (response.status === 409 || data.status === "signed-already") {
+                        setStatus("info", "Ez az e-mail cím már fel van iratkozva. Hamarosan jelentkezünk!");
+                    } else if (response.status === 400 || data.status === "invalid-email") {
+                        setStatus("error", "Érvénytelen e-mail cím. Kérlek ellenőrizd és próbáld újra.");
+                        input.focus();
+                    } else {
+                        setStatus("error", "Hiba történt a feliratkozás során. Kérlek próbáld újra később.");
+                    }
+                } catch (err) {
+                    setStatus("error", "Nem sikerült a kapcsolat. Ellenőrizd az internetkapcsolatot és próbáld újra.");
+                } finally {
+                    setLoading(false);
+                }
+            });
+        })();
     </script>
 
 </body>
