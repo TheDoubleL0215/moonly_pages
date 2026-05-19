@@ -122,7 +122,7 @@
             </div>
 
             <div id="nav-menu"
-                class="nav-menu hidden md:hidden border-t border-primary/10 bg-background/98 backdrop-blur-md"
+                class="nav-menu md:hidden border-t border-primary/10 bg-background/98 backdrop-blur-md"
                 role="navigation" aria-label="Mobil menü">
                 <div class="flex flex-col py-3 pb-4">
                     <a href="#kutatas"
@@ -710,7 +710,7 @@
             <div id="csapat" class="text-center max-w-2xl mx-auto mb-16 lg:mb-20">
                 <p class="text-secondary font-semibold text-sm uppercase tracking-widest mb-4">A csapat</p>
                 <h2 class="text-4xl md:text-5xl font-semibold leading-tight">
-                    Kik állnak a <em class="text-primary not-italic">Moonly</em> mögött?
+                    Kik állunk a <em class="text-primary not-italic">Moonly</em> mögött?
                 </h2>
                 <p class="text-lg text-text/70 mt-6 leading-relaxed">
                     Ketten indítottuk el a projektet: célunk, hogy segítsünk a nőknek megérteni a saját testük
@@ -769,12 +769,12 @@
                             Felkeltettük az <em class="text-moonly-gold not-italic">érdeklődésed?</em>
                         </h2>
                         <p class="text-lg text-text/80 mb-8 leading-relaxed">
-                            Iratkozz fel levelezőlistánkra, hogy rögtön értesülj amikor az alkalmazás elérhetővé válik
+                            Iratkozz fel levelezőlistánkra, hogy rögtön értesülj, amikor az alkalmazás elérhetővé válik!
                         </p>
                         <form class="flex flex-col sm:flex-row gap-3 max-w-lg" action="#" method="post">
                             <label for="cta-email" class="sr-only">E-mail cím</label>
                             <input type="email" id="cta-email" name="email" required autocomplete="email"
-                                placeholder="e-mail@pelda.hu"
+                                placeholder="moonly@pelda.hu"
                                 class="flex-1 min-w-0 px-6 py-4 rounded-full bg-text/10 border border-text/20 text-text placeholder:text-text/40 font-medium focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/30 transition-all" />
                             <button type="submit"
                                 class="inline-flex items-center justify-center px-8 py-4 rounded-full bg-text text-background font-semibold hover:bg-text/90 transition-all hover:-translate-y-0.5 shrink-0">
@@ -854,7 +854,6 @@
                 function setOpen(open) {
                     toggle.setAttribute("aria-expanded", open ? "true" : "false");
                     toggle.setAttribute("aria-label", open ? "Menü bezárása" : "Menü megnyitása");
-                    menu.classList.toggle("hidden", !open);
                     menu.classList.toggle("nav-menu--open", open);
                     iconOpen?.classList.toggle("hidden", open);
                     iconClose?.classList.toggle("hidden", !open);
