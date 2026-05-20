@@ -55,6 +55,14 @@ body {
     scroll-margin-top: 5rem;
 }
 
+#forrasok {
+    scroll-margin-top: 5rem;
+}
+
+#kapcsolat {
+    scroll-margin-top: 5rem;
+}
+
 /* ---------- Asset Placeholder stílusok ----------
    Minden olyan elemen, ahol képet vagy más asset-et
    kell majd cserélni. Vizuálisan jelzi a fejlesztőnek.
