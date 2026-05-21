@@ -7,6 +7,7 @@
     <meta name="description"
         content="Moonly - Női egészség és menstruációs ciklus követő alkalmazás. Kövesd nyomon ciklusodat, naplózd érzéseidet és találj megbízható orvosi forrásokat.">
     <title>Moonly - Társad az egészségben!</title>
+    <meta name="apple-itunes-app" content="app-id=6756368231">
     <link rel="icon" href="assets/favicon.ico" type="image/svg+xml">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -105,6 +106,8 @@
                         class="text-text/70 hover:text-text transition-colors text-sm font-medium">Források</a>
                     <a href="#kapcsolat"
                         class="text-text/70 hover:text-text transition-colors text-sm font-medium">Kapcsolat</a>
+                    <a href="#letoltes"
+                        class="text-text/70 hover:text-text transition-colors text-sm font-medium">Letöltés</a>
                 </div>
 
                 <button type="button" id="nav-toggle"
@@ -140,6 +143,8 @@
                         class="nav-menu__link px-2 py-3 rounded-xl text-text/80 hover:text-text hover:bg-primary/10 text-base font-medium transition-colors">Források</a>
                     <a href="#kapcsolat"
                         class="nav-menu__link px-2 py-3 rounded-xl text-text/80 hover:text-text hover:bg-primary/10 text-base font-medium transition-colors">Kapcsolat</a>
+                    <a href="#letoltes"
+                        class="nav-menu__link px-2 py-3 rounded-xl text-text/80 hover:text-text hover:bg-primary/10 text-base font-medium transition-colors">Letöltés</a>
                 </div>
             </div>
         </div>
@@ -175,14 +180,35 @@
                         egészségüket jobban megőrizni.
                     </p>
 
-                    <a href="#bemutatkozott"
-                        class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-primary text-background font-semibold hover:bg-primary/90 transition-all hover:shadow-glow-lg hover:-translate-y-0.5">
-                        Tovább
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </a>
+                    <div class="flex flex-col sm:flex-row flex-wrap items-start gap-4">
+                        <div class="flex flex-col sm:flex-row flex-wrap items-start gap-3">
+                            <a href="https://apps.apple.com/hu/app/moonly/id6756368231"
+                                class="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-primary text-background font-semibold hover:bg-primary/90 transition-all hover:shadow-glow-lg hover:-translate-y-0.5"
+                                target="_blank" rel="noopener noreferrer">
+                                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path
+                                        d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+                                </svg>
+                                Letöltés
+                            </a>
+                            <button type="button" disabled
+                                class="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full border border-text/25 bg-text/5 text-text/45 font-semibold cursor-not-allowed opacity-70"
+                                aria-disabled="true" title="Android verzió hamarosan elérhető">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M40-240q9-107 65.5-197T256-580l-74-128q-6-9-3-19t13-15q8-5 18-2t16 12l74 128q86-36 180-36t180 36l74-128q6-9 16-12t18 2q10 5 13 15t-3 19l-74 128q94 53 150.5 143T920-240H40Zm275.5-124.5Q330-379 330-400t-14.5-35.5Q301-450 280-450t-35.5 14.5Q230-421 230-400t14.5 35.5Q259-350 280-350t35.5-14.5Zm400 0Q730-379 730-400t-14.5-35.5Q701-450 680-450t-35.5 14.5Q630-421 630-400t14.5 35.5Q659-350 680-350t35.5-14.5Z"/></svg>
+                                Android
+                                <span class="text-xs font-medium">Hamarosan</span>
+                            </button>
+                        </div>
+                        <a href="#bemutatkozott"
+                            class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border border-primary/30 text-text font-semibold hover:bg-primary/10 transition-all hover:-translate-y-0.5">
+                            Tovább
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </a>
+                    </div>
 
                     <!-- Bizalmi jelek -->
                     <!--div class="flex items-center gap-8 pt-6">
@@ -580,6 +606,24 @@
                     <p class="text-sm text-text/50 pl-4">
                         * Az alkalmazást 16 éves kortól lehet használni!
                     </p>
+                    <div class="pt-2 pl-4 flex flex-col sm:flex-row flex-wrap items-start gap-3">
+                        <a href="https://apps.apple.com/hu/app/moonly/id6756368231"
+                            class="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-primary text-background font-semibold hover:bg-primary/90 transition-all hover:shadow-glow-lg hover:-translate-y-0.5"
+                            target="_blank" rel="noopener noreferrer">
+                            <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path
+                                    d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+                            </svg>
+                            Letöltés
+                        </a>
+                        <button type="button" disabled
+                            class="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full border border-text/25 bg-text/5 text-text/45 font-semibold cursor-not-allowed opacity-70"
+                            aria-disabled="true" title="Android verzió hamarosan elérhető">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M40-240q9-107 65.5-197T256-580l-74-128q-6-9-3-19t13-15q8-5 18-2t16 12l74 128q86-36 180-36t180 36l74-128q6-9 16-12t18 2q10 5 13 15t-3 19l-74 128q94 53 150.5 143T920-240H40Zm275.5-124.5Q330-379 330-400t-14.5-35.5Q301-450 280-450t-35.5 14.5Q230-421 230-400t14.5 35.5Q259-350 280-350t35.5-14.5Zm400 0Q730-379 730-400t-14.5-35.5Q701-450 680-450t-35.5 14.5Q630-421 630-400t14.5 35.5Q659-350 680-350t35.5-14.5Z"/></svg>
+                            Android
+                            <span class="text-xs font-medium">Hamarosan</span>
+                        </button>
+                    </div>
                 </div>
 
             </div>
@@ -773,10 +817,32 @@
                 <div class="relative grid md:grid-cols-2 gap-12 items-center">
                     <div>
                         <h2 id="letoltes" class=" text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight mb-6">
-                            Felkeltettük az <em class="text-moonly-gold not-italic">érdeklődésed?</em>
+                            A Moonly most már <em class="text-moonly-gold not-italic">elérhető!</em>
                         </h2>
-                        <p class="text-lg text-text/80 mb-8 leading-relaxed">
-                            Iratkozz fel levelezőlistánkra, hogy rögtön értesülj, amikor az alkalmazás elérhetővé válik!
+                        <p class="text-lg text-text/80 mb-6 leading-relaxed">
+                            Töltsd le ingyenesen az App Store-ból, és kezdd el követni a ciklusodat még ma.
+                        </p>
+                        <div class="flex flex-col sm:flex-row flex-wrap items-start gap-3 mb-10">
+                            <a href="https://apps.apple.com/hu/app/moonly/id6756368231"
+                                class="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-primary text-background font-semibold hover:bg-primary/90 transition-all hover:shadow-glow-lg hover:-translate-y-0.5"
+                                target="_blank" rel="noopener noreferrer">
+                                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path
+                                        d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+                                </svg>
+                                Letöltés
+                            </a>
+                            <button type="button" disabled
+                                class="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full border border-text/25 bg-text/5 text-text/45 font-semibold cursor-not-allowed opacity-70"
+                                aria-disabled="true" title="Android verzió hamarosan elérhető">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M40-240q9-107 65.5-197T256-580l-74-128q-6-9-3-19t13-15q8-5 18-2t16 12l74 128q86-36 180-36t180 36l74-128q6-9 16-12t18 2q10 5 13 15t-3 19l-74 128q94 53 150.5 143T920-240H40Zm275.5-124.5Q330-379 330-400t-14.5-35.5Q301-450 280-450t-35.5 14.5Q230-421 230-400t14.5 35.5Q259-350 280-350t35.5-14.5Zm400 0Q730-379 730-400t-14.5-35.5Q701-450 680-450t-35.5 14.5Q630-421 630-400t14.5 35.5Q659-350 680-350t35.5-14.5Z"/></svg>
+                                Android
+                                <span class="text-xs font-medium">Hamarosan</span>
+                            </button>
+                        </div>
+                        <p class="text-sm text-text/60 mb-4 uppercase tracking-widest font-medium">Hírek a levelezőlistán</p>
+                        <p class="text-base text-text/70 mb-6 leading-relaxed">
+                            Iratkozz fel, ha szeretnél értesülni az új funkciókról és a betét megjelenéséről.
                         </p>
                         <form id="cta-form" class="max-w-lg space-y-4" novalidate>
                             <div class="flex flex-col sm:flex-row gap-3">
@@ -898,6 +964,24 @@
                         <!-- LOGO PLACEHOLDER -->
                         <img src="assets/moonly_header.svg" alt="Moonly Logo" class="w-48 h-auto">
                     </a>
+                    <div class="flex flex-col sm:flex-row flex-wrap items-start gap-3 mt-2">
+                        <a href="https://apps.apple.com/hu/app/moonly/id6756368231"
+                            class="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-primary text-background font-semibold hover:bg-primary/90 transition-all hover:shadow-glow-lg hover:-translate-y-0.5"
+                            target="_blank" rel="noopener noreferrer">
+                            <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path
+                                    d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+                            </svg>
+                            Letöltés
+                        </a>
+                        <button type="button" disabled
+                            class="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full border border-text/25 bg-text/5 text-text/45 font-semibold cursor-not-allowed opacity-70"
+                            aria-disabled="true" title="Android verzió hamarosan elérhető">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#d3d3d3"><path d="M40-240q9-107 65.5-197T256-580l-74-128q-6-9-3-19t13-15q8-5 18-2t16 12l74 128q86-36 180-36t180 36l74-128q6-9 16-12t18 2q10 5 13 15t-3 19l-74 128q94 53 150.5 143T920-240H40Zm275.5-124.5Q330-379 330-400t-14.5-35.5Q301-450 280-450t-35.5 14.5Q230-421 230-400t14.5 35.5Q259-350 280-350t35.5-14.5Zm400 0Q730-379 730-400t-14.5-35.5Q701-450 680-450t-35.5 14.5Q630-421 630-400t14.5 35.5Q659-350 680-350t35.5-14.5Z"/></svg>
+                            Android
+                            <span class="text-xs font-medium">Hamarosan</span>
+                        </button>
+                    </div>
                 </div>
 
                 <div>
